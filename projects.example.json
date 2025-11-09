@@ -1,0 +1,19 @@
+{
+  "projects": [
+    {
+      "name": "example-webapp",
+      "repository": "https://github.com/username/example-webapp.git",
+      "enabled": true
+    },
+    {
+      "name": "api-service",
+      "repository": "https://github.com/username/api-service.git",
+      "enabled": true
+    },
+    {
+      "name": "database-service",
+      "repository": "https://github.com/username/database-service.git",
+      "enabled": false
+    }
+  ]
+}
