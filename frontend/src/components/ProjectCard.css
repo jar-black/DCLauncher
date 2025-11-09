@@ -1,0 +1,167 @@
+.project-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.project-name {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
+  word-break: break-word;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.status-badge.running {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status-badge.stopped {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.project-repo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #667eea;
+  font-size: 0.9rem;
+}
+
+.project-repo a {
+  color: #667eea;
+  text-decoration: none;
+}
+
+.project-repo a:hover {
+  text-decoration: underline;
+}
+
+.ports-section,
+.containers-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+}
+
+.ports-section h4,
+.containers-section h4 {
+  font-size: 1rem;
+  color: #666;
+  margin: 0 0 12px 0;
+  font-weight: 600;
+}
+
+.ports-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.port-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.port-link:hover {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+  transform: translateX(4px);
+}
+
+.port-icon {
+  font-size: 1.2rem;
+}
+
+.port-number {
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+}
+
+.port-protocol {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin-left: auto;
+}
+
+.containers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container-item {
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.container-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.container-name {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.container-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #10b981;
+}
+
+.status-dot-small {
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+}
+
+.container-image {
+  font-size: 0.85rem;
+  color: #666;
+  font-family: 'Courier New', monospace;
+}

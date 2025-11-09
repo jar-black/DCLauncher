@@ -1,0 +1,9 @@
+{
+  "projects": [
+    {
+      "name": "example-project",
+      "repository": "https://github.com/user/example-project.git",
+      "enabled": true
+    }
+  ]
+}

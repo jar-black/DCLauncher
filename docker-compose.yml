@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  dclauncher-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: dclauncher-backend
+    ports:
+      - "3001:3001"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./projects.json:/app/projects.json
+      - ./projects:/app/projects
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+    restart: unless-stopped
+
+  dclauncher-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: dclauncher-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - dclauncher-backend
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001
+    restart: unless-stopped
