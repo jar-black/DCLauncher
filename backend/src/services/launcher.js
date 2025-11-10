@@ -64,7 +64,40 @@ class LauncherService {
       return { success: true, output: stdout };
     } catch (error) {
       console.error(`Error running docker compose for ${projectName}:`, error);
-      return { success: false, error: error.message };
+
+      // Provide helpful error messages for common issues
+      let helpfulMessage = error.message;
+      const errorOutput = error.message + (error.stderr || '') + (error.stdout || '');
+
+      // Detect deprecated/missing Docker images
+      if (errorOutput.includes('not found')) {
+        const imageMatch = errorOutput.match(/docker\.io\/library\/([^:]+):([^\s]+)/);
+        if (imageMatch) {
+          const imageName = imageMatch[1];
+          const imageTag = imageMatch[2];
+
+          // Provide specific guidance for common deprecated images
+          const suggestions = {
+            'openjdk': `The openjdk image is deprecated. Try updating the Dockerfile to use:\n  - eclipse-temurin:${imageTag}\n  - amazoncorretto:${imageTag}\n  - adoptopenjdk:${imageTag}`,
+            'python': imageTag.startsWith('2') ? 'Python 2 is EOL. Update to python:3.x' : `Try using python:${imageTag}-slim or python:${imageTag}-alpine`,
+            'node': parseInt(imageTag) < 14 ? 'This Node.js version is EOL. Use node:18 or node:20 (LTS versions)' : null
+          };
+
+          const suggestion = suggestions[imageName];
+          if (suggestion) {
+            helpfulMessage = `Docker image ${imageName}:${imageTag} not found.\n\n${suggestion}\n\nTo fix:\n1. Edit the Dockerfile in projects/${projectName}/\n2. Update the FROM line to use a supported image\n3. Re-run docker compose up --build -d`;
+          } else {
+            helpfulMessage = `Docker image ${imageName}:${imageTag} not found.\n\nThe base image may be deprecated or the tag doesn't exist.\nCheck Docker Hub for available tags: https://hub.docker.com/_/${imageName}\n\nTo fix:\n1. Edit the Dockerfile in projects/${projectName}/\n2. Update the FROM line to use a valid image tag\n3. Re-run docker compose up --build -d`;
+          }
+        }
+      }
+
+      // Detect port conflicts
+      if (errorOutput.includes('port is already allocated') || errorOutput.includes('address already in use')) {
+        helpfulMessage = `Port conflict detected.\n\nAnother service is already using one of the ports required by ${projectName}.\n\nTo fix:\n1. Stop the conflicting service, or\n2. Edit projects/${projectName}/docker-compose.yaml to use different ports`;
+      }
+
+      return { success: false, error: helpfulMessage };
     }
   }
 

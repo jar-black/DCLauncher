@@ -209,6 +209,52 @@ For a project to work with DCLauncher, it must have a `docker-compose.yml` or `d
 - Verify the backend is running on port 3001
 - Check CORS settings if accessing from a different domain
 
+### Docker build fails with "image not found"
+
+If you see errors like `openjdk:11: not found` or similar, this is usually because:
+
+**Problem**: The base Docker image used in the project's Dockerfile is deprecated or no longer available.
+
+**Common Examples**:
+- `openjdk:11` → Deprecated, use `eclipse-temurin:11` or `amazoncorretto:11`
+- `openjdk:8` → Deprecated, use `eclipse-temurin:8` or `amazoncorretto:8`
+- `python:2.7` → EOL, use `python:3.x`
+
+**Solution**: Update the project's Dockerfile to use an actively maintained base image.
+
+For Java projects using OpenJDK:
+```dockerfile
+# Old (deprecated)
+FROM openjdk:11
+
+# New (recommended alternatives)
+FROM eclipse-temurin:11
+# or
+FROM amazoncorretto:11
+# or
+FROM openjdk:11-jdk (if available in your registry)
+```
+
+**Steps to fix**:
+1. Navigate to the project directory: `cd projects/[project-name]`
+2. Edit the `Dockerfile` and update the `FROM` line to use a valid base image
+3. Save the file
+4. Re-run the build: `docker compose up --build -d`
+
+**Other deprecated images to watch for**:
+- Replace `node:10` or older with `node:18` or `node:20` (LTS versions)
+- Replace `postgres:9.x` with `postgres:14` or later
+- Replace `nginx:alpine3.x` with latest `nginx:alpine`
+
+### Docker Compose version warning
+
+If you see a warning about the `version` attribute being obsolete:
+```
+the attribute `version` is obsolete, it will be ignored
+```
+
+This is just a warning and won't cause failures. The `version` field in `docker-compose.yaml` is no longer needed with modern Docker Compose versions. You can safely remove it from the project's docker-compose.yaml file.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
