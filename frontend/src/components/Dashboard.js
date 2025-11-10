@@ -1,6 +1,7 @@
 import React from 'react';
 import './Dashboard.css';
 import ProjectCard from './ProjectCard';
+import AndroidInstallationTable from './AndroidInstallationTable';
 
 function Dashboard({ projects, loading, error, launching, onRefresh, onLaunch }) {
   return (
@@ -54,6 +55,8 @@ function Dashboard({ projects, loading, error, launching, onRefresh, onLaunch })
           ))
         )}
       </div>
+
+      <AndroidInstallationTable />
     </div>
   );
 }
