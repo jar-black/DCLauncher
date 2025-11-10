@@ -51,9 +51,9 @@ class LauncherService {
 
   async runDockerCompose(projectPath, projectName) {
     try {
-      console.log(`Running docker-compose for ${projectName}...`);
+      console.log(`Running docker compose for ${projectName}...`);
       const { stdout, stderr } = await execPromise(
-        'docker-compose up --build -d',
+        'docker compose up --build -d',
         { cwd: projectPath }
       );
 
@@ -63,7 +63,7 @@ class LauncherService {
 
       return { success: true, output: stdout };
     } catch (error) {
-      console.error(`Error running docker-compose for ${projectName}:`, error);
+      console.error(`Error running docker compose for ${projectName}:`, error);
       return { success: false, error: error.message };
     }
   }
