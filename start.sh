@@ -24,12 +24,15 @@ fi
 echo "✅ Docker version: $(docker --version)"
 
 # Check if Docker Compose is installed
-if ! command -v docker-compose &> /dev/null; then
+if docker compose version &> /dev/null; then
+    echo "✅ Docker Compose version: $(docker compose version)"
+elif command -v docker-compose &> /dev/null; then
+    echo "⚠️  Using legacy docker-compose (v1). Consider upgrading to Docker Compose V2."
+    echo "✅ Docker Compose version: $(docker-compose --version)"
+else
     echo "❌ Docker Compose is not installed. Please install Docker Compose."
     exit 1
 fi
-
-echo "✅ Docker Compose version: $(docker-compose --version)"
 echo ""
 
 # Install dependencies if node_modules doesn't exist
